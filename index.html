@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeriGuard - File Upload</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dcd6f7; /* Lavender shade */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            
+            background-color: #6a0572; /* Purple shade */
+            color: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-logout {
+            display: flex;
+            align-items: center;
+            margin-left: 1355px;
+        }
+
+        #userTag {
+             margin-right: 10px; /* Add margin to separate User tag and Logout button */
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Change from 'center' to 'flex-start' */
+            min-height: 100vh;
+            margin-top: 50px; /* Add margin-top to move the form up */
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            background-color: #ece5f5; /* Light lavender shade */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-top: 10px; /* Adjust margin-top as needed */
+        }
+
+        h2 {
+            color: #6a0572; /* Purple shade */
+            margin-bottom: 20px;
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #6a0572; /* Purple shade */
+        }
+
+        button {
+            background-color: #6a0572; /* Purple shade */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: medium;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4a0572; /* Darker purple shade on hover */
+        }
+
+        p {
+            color: #4a0572; /* Darker purple shade */
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #fileList {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: inline-block;
+        }
+
+        a {
+            color: #fff; /* White color for text inside buttons */
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+    <h1>VeriGuard</h1>
+    <div class="user-logout"></div>
+    <span id="userTag">User 1</span>
+    <button onclick="logout()">Logout</button>
+    
+    
+</div></div>
+</header>
+
+<main>
+    <form>
+        <h2>File Upload</h2>
+        <input type="text" name="file-name" id="name" placeholder="Enter file name">
+        <input type="file" name="file" id="files" multiple>
+        <button type="submit">Upload</button>
+        <p>Previously uploaded documents</p>
+        <div id="fileList"></div>
+    </form>
+</main>
+
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name");
+        const files = document.getElementById("files");
+        const formData = new FormData();
+        formData.append("name", name.value);
+        for (let i = 0; i < files.files.length; i++) {
+            formData.append("files", files.files[i]);
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/uploads', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            // After a successful upload, refresh the file list
+            listFiles();
+        } catch (error) {
+            console.error('Error uploading files:', error);
+        }
+    });
+
+    async function listFiles() {
+        try {
+            const response = await fetch('http://localhost:5000/list-files');
+            const data = await response.json();
+
+            const fileListElement = document.getElementById('fileList');
+
+            if (data.files.length === 0) {
+                fileListElement.innerHTML += '<p>No files available.</p>';
+            } else {
+                fileListElement.innerHTML += '<ul>';
+                data.files.forEach(filename => {
+                    fileListElement.innerHTML += `<li><button><a href="http://localhost:5000/download/${filename}" download>${filename}</a></button></li>`;
+                });
+                fileListElement.innerHTML += '</ul>';
+            }
+        } catch (error) {
+            console.error('Error fetching file list:', error);
+        }
+    }
+
+    function logout() {
+        window.location.href = 'webpage.html';
+    }
+
+    // Call the function to list files when the page loads
+    listFiles();
+</script>
+
+</body>
+</html>

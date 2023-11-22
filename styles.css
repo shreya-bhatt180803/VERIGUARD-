@@ -1,0 +1,70 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6e6fa; /* Lavender shade */
+}
+
+header {
+    background-color: #6a0572; /* Purple shade */
+    color: #f8f8f8; /* Lavender shade */
+    padding: 15px 0;
+    text-align: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.hero {
+    background-color: #6a0572; /* Purple shade */
+    color: #f8f8f8; /* Lavender shade */
+    text-align: center;
+    padding: 100px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e6e6fa; /* Lavender shade */
+    color: #6a0572; /* Purple shade */
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+    background-color: #f8f8f8; /* Lavender shade */
+    color: #6a0572; /* Purple shade */
+}
+
+.feature {
+    text-align: center;
+}
+
+.feature img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.feature h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
